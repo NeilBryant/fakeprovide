@@ -7,6 +7,7 @@ RPM_SUMMARY=
 RPM_BUILD_SOURCE=0
 RPM_BUILD_BINARY=1
 RPM_ADDL_PROVIDES=()
+RPM_CONFLICTS=()
 
 # Exit with an error message.
 die () {
@@ -17,16 +18,17 @@ die () {
 
 # Show usage information.
 usage () {
-	echo "$0: usage: $0 [ -a arch ] [ -s summary ] [-P extra provides] [ -BS ] name"
+	echo "$0: usage: $0 [ -a arch ] [ -s summary ] [-P extra provides] [-C conflict] [ -BS ] name"
 }
 
-while getopts 'a:s:hSBP:' ch; do
+while getopts 'a:s:hSBP:C:' ch; do
 	case $ch in
 		(a)	RPM_BUILDARCH="$OPTARG";;
 		(s)	RPM_SUMMARY="$OPTARG";;
 		(S)	RPM_BUILD_SOURCE=1;;
 		(B)	RPM_BUILD_BINARY=0;;
 		(P)	RPM_ADDL_PROVIDES=("${RPM_ADDL_PROVIDES[@]}" "$OPTARG");;
+		(C)	RPM_CONFLICTS=("${RPM_CONFLICTS[@]}" "$OPTARG");;
 		(h)	usage
 			exit 0
 			;;
@@ -72,6 +74,10 @@ Provides:	$provide
 
 $(for p in "${RPM_ADDL_PROVIDES[@]}"; do
 echo "Provides: $p"
+done)
+
+$(for c in "${RPM_CONFLICTS[@]}"; do
+echo "Conflicts: $c"
 done)
 
 BuildArch:	$RPM_BUILDARCH
