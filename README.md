@@ -41,6 +41,7 @@ The `fakeprovide` script supports the following options:
 - `-B` -- DO NOT build the binary rpm.
 - `-S` -- DO build the source rpm.
 - `-P` -- Specify extra provides
+- `-C` -- Specify conflicts
 
 Author
 ======
